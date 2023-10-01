@@ -76,7 +76,7 @@ create()
 
     [[ $? -ne 0 ]] && echo "error!" && cat ${pgvm_logs}/install.$cluster_name@${current}.error.log && exit 1
 
-    last_port=$(find ${pgvm_clusters} -name "postgresql.conf" -exec egrep "port =" {} \; | awk '{ printf $3"\n" ;}' | sort -n | tail -1)
+    last_port=$(find ${pgvm_clusters} -name "postgresql.conf" -exec grep -E "port =" {} \; | awk '{ printf $3"\n" ;}' | sort -n | tail -1)
     next_port=$(($last_port + 1))
 
     echo -e "\n# added by 'pgvm' at `date`" >> $cluster_dir/postgresql.conf
@@ -192,8 +192,8 @@ cluster_port()
     cluster_top_dir="${pgvm_clusters}/$cluster_version"
     cluster_dir=${cluster_top_dir}/${cluster_name}
 
-    cluster_port=$(egrep "^\s*port\s*=" $cluster_dir/postgresql.conf)
-    [[ -z "$cluster_port" ]] && cluster_port=$(egrep "^#\s*port\s*=" $cluster_dir/postgresql.conf)
+    cluster_port=$(grep -E "^\s*port\s*=" $cluster_dir/postgresql.conf)
+    [[ -z "$cluster_port" ]] && cluster_port=$(grep -E "^#\s*port\s*=" $cluster_dir/postgresql.conf)
 
     echo $cluster_port | awk '{ printf $3"\n" ;}' | tail -1
 }
