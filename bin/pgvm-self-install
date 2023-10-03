@@ -61,7 +61,7 @@ set_bashrc_env()
 {
   [[ -f $HOME/.bashrc ]] || touch $HOME/.bashrc
 
-  egrep "source .*pgvm_env.*" $HOME/.bashrc >/dev/null \
+  grep -E "source .*pgvm_env.*" $HOME/.bashrc >/dev/null \
     || echo "source ${pgvm_home}/pgvm_env" >> $HOME/.bashrc
 }
 
@@ -69,7 +69,7 @@ set_bash_profile_env()
 {
   [[ -f $HOME/.bash_profile ]] || touch $HOME/.bash_profile
 
-  egrep "source .*pgvm_env.*" $HOME/.bash_profile >/dev/null \
+  grep -E "source .*pgvm_env.*" $HOME/.bash_profile >/dev/null \
     || echo "source ${pgvm_home}/pgvm_env" >> $HOME/.bash_profile
 }
 
